@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -68,183 +68,8 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Collisions; });
-/* unused harmony export Collisions */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_BVH_mjs__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_Circle_mjs__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_Polygon_mjs__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_Point_mjs__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_SAT_mjs__ = __webpack_require__(3);
-/* unused harmony reexport Result */
-/* unused harmony reexport Circle */
-/* unused harmony reexport Polygon */
-/* unused harmony reexport Point */
-
-
-
-
-
-
-
-/**
- * A collision system used to track bodies in order to improve collision detection performance
- * @class
- */
-class Collisions {
-	/**
-	 * @constructor
-	 */
-	constructor() {
-		/** @private */
-		this._bvh = new __WEBPACK_IMPORTED_MODULE_0__modules_BVH_mjs__["a" /* default */]();
-	}
-
-	/**
-	 * Creates a {@link Circle} and inserts it into the collision system
-	 * @param {Number} [x = 0] The starting X coordinate
-	 * @param {Number} [y = 0] The starting Y coordinate
-	 * @param {Number} [radius = 0] The radius
-	 * @param {Number} [scale = 1] The scale
-	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
-	 * @returns {Circle}
-	 */
-	createCircle(x = 0, y = 0, radius = 0, scale = 1, padding = 0) {
-		const body = new __WEBPACK_IMPORTED_MODULE_1__modules_Circle_mjs__["a" /* default */](x, y, radius, scale, padding);
-
-		this._bvh.insert(body);
-
-		return body;
-	}
-
-	/**
-	 * Creates a {@link Polygon} and inserts it into the collision system
-	 * @param {Number} [x = 0] The starting X coordinate
-	 * @param {Number} [y = 0] The starting Y coordinate
-	 * @param {Array<Number[]>} [points = []] An array of coordinate pairs making up the polygon - [[x1, y1], [x2, y2], ...]
-	 * @param {Number} [angle = 0] The starting rotation in radians
-	 * @param {Number} [scale_x = 1] The starting scale along the X axis
-	 * @param {Number} [scale_y = 1] The starting scale long the Y axis
-	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
-	 * @returns {Polygon}
-	 */
-	createPolygon(x = 0, y = 0, points = [[0, 0]], angle = 0, scale_x = 1, scale_y = 1, padding = 0) {
-		const body = new __WEBPACK_IMPORTED_MODULE_2__modules_Polygon_mjs__["a" /* default */](x, y, points, angle, scale_x, scale_y, padding);
-
-		this._bvh.insert(body);
-
-		return body;
-	}
-
-	/**
-	 * Creates a {@link Point} and inserts it into the collision system
-	 * @param {Number} [x = 0] The starting X coordinate
-	 * @param {Number} [y = 0] The starting Y coordinate
-	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
-	 * @returns {Point}
-	 */
-	createPoint(x = 0, y = 0, padding = 0) {
-		const body = new __WEBPACK_IMPORTED_MODULE_3__modules_Point_mjs__["a" /* default */](x, y, padding);
-
-		this._bvh.insert(body);
-
-		return body;
-	}
-
-	/**
-	 * Creates a {@link Result} used to collect the detailed results of a collision test
-	 */
-	createResult() {
-		return new __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__["a" /* default */]();
-	}
-
-	/**
-	 * Creates a Result used to collect the detailed results of a collision test
-	 */
-	static createResult() {
-		return new __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__["a" /* default */]();
-	}
-
-	/**
-	 * Inserts bodies into the collision system
-	 * @param {...Circle|...Polygon|...Point} bodies
-	 */
-	insert(...bodies) {
-		for(const body of bodies) {
-			this._bvh.insert(body, false);
-		}
-
-		return this;
-	}
-
-	/**
-	 * Removes bodies from the collision system
-	 * @param {...Circle|...Polygon|...Point} bodies
-	 */
-	remove(...bodies) {
-		for(const body of bodies) {
-			this._bvh.remove(body, false);
-		}
-
-		return this;
-	}
-
-	/**
-	 * Updates the collision system. This should be called before any collisions are tested.
-	 */
-	update() {
-		this._bvh.update();
-
-		return this;
-	}
-
-	/**
-	 * Draws the bodies within the system to a CanvasRenderingContext2D's current path
-	 * @param {CanvasRenderingContext2D} context The context to draw to
-	 */
-	draw(context) {
-		return this._bvh.draw(context);
-	}
-
-	/**
-	 * Draws the system's BVH to a CanvasRenderingContext2D's current path. This is useful for testing out different padding values for bodies.
-	 * @param {CanvasRenderingContext2D} context The context to draw to
-	 */
-	drawBVH(context) {
-		return this._bvh.drawBVH(context);
-	}
-
-	/**
-	 * Returns a list of potential collisions for a body
-	 * @param {Circle|Polygon|Point} body The body to test for potential collisions against
-	 * @returns {Array<Body>}
-	 */
-	potentials(body) {
-		return this._bvh.potentials(body);
-	}
-
-	/**
-	 * Determines if two bodies are colliding
-	 * @param {Circle|Polygon|Point} target The target body to test against
-	 * @param {Result} [result = null] A Result object on which to store information about the collision
-	 * @param {Boolean} [aabb = true] Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
-	 * @returns {Boolean}
-	 */
-	collides(source, target, result = null, aabb = true) {
-		return Object(__WEBPACK_IMPORTED_MODULE_5__modules_SAT_mjs__["a" /* default */])(source, target, result, aabb);
-	}
-};
-
-
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Result_mjs__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SAT_mjs__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Result_mjs__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SAT_mjs__ = __webpack_require__(2);
 
 
 
@@ -368,7 +193,7 @@ class Body {
 
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -411,7 +236,7 @@ class Result {
 		 * @desc True if B is completely contained within A
 		 * @type {Boolean}
 		 */
-		this.a_in_b = false;
+		this.b_in_a = false;
 
 		/**
 		 * @desc The magnitude of the shortest axis of overlap
@@ -437,7 +262,7 @@ class Result {
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -856,11 +681,11 @@ function separatingAxis(a_coords, b_coords, x, y, result = null) {
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body_mjs__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body_mjs__ = __webpack_require__(0);
 
 
 /**
@@ -1111,248 +936,187 @@ class Polygon extends __WEBPACK_IMPORTED_MODULE_0__Body_mjs__["a" /* default */]
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__examples_Tank_mjs__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__examples_Stress_mjs__ = __webpack_require__(11);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Collisions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Collisions", function() { return Collisions; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_BVH_mjs__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_Circle_mjs__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_Polygon_mjs__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_Point_mjs__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_SAT_mjs__ = __webpack_require__(2);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Result", function() { return __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Circle", function() { return __WEBPACK_IMPORTED_MODULE_1__modules_Circle_mjs__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Polygon", function() { return __WEBPACK_IMPORTED_MODULE_2__modules_Polygon_mjs__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Point", function() { return __WEBPACK_IMPORTED_MODULE_3__modules_Point_mjs__["a"]; });
 
 
 
-let example;
-
-switch(window.location.search) {
-	case '?stress':
-		example = new __WEBPACK_IMPORTED_MODULE_1__examples_Stress_mjs__["a" /* default */]();
-		break;
-
-	default:
-		example = new __WEBPACK_IMPORTED_MODULE_0__examples_Tank_mjs__["a" /* default */]();
-		break;
-}
-
-document.body.appendChild(example.element);
 
 
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_Collisions_mjs__ = __webpack_require__(0);
 
 
-const width  = 800;
-const height = 600;
-const result = __WEBPACK_IMPORTED_MODULE_0__src_Collisions_mjs__["a" /* default */].createResult();
-
-class Tank {
+/**
+ * A collision system used to track bodies in order to improve collision detection performance
+ * @class
+ */
+class Collisions {
+	/**
+	 * @constructor
+	 */
 	constructor() {
-		const collisions = new __WEBPACK_IMPORTED_MODULE_0__src_Collisions_mjs__["a" /* default */]();
-
-		this.element    = document.createElement('div');
-		this.canvas     = document.createElement('canvas');
-		this.context    = this.canvas.getContext('2d');
-		this.collisions = collisions;
-		this.bodies     = [];
-
-		this.canvas.width  = width;
-		this.canvas.height = height;
-		this.player        = null;
-
-		this.up    = false;
-		this.down  = false;
-		this.left  = false;
-		this.right = false;
-
-		this.element.innerHTML = `
-			<div><b>W, S</b> - Accelerate/Decelerate</div>
-			<div><b>A, D</b> - Turn</div>
-			<div><label><input id="bvh" type="checkbox"> Show Bounding Volume Hierarchy</label></div>
-		`;
-
-		const updateKeys = (e) => {
-			const keydown = e.type === 'keydown';
-			const key     = e.key.toLowerCase();
-
-			key === 'w' && (this.up = keydown);
-			key === 's' && (this.down = keydown);
-			key === 'a' && (this.left = keydown);
-			key === 'd' && (this.right = keydown);
-		};
-
-		document.addEventListener('keydown', updateKeys);
-		document.addEventListener('keyup', updateKeys);
-
-		this.bvh_checkbox = this.element.querySelector('#bvh');
-		this.element.appendChild(this.canvas);
-
-		this.createPlayer(400, 300);
-		this.createMap();
-
-		const frame = () => {
-			this.update();
-			requestAnimationFrame(frame);
-		};
-
-		frame();
+		/** @private */
+		this._bvh = new __WEBPACK_IMPORTED_MODULE_0__modules_BVH_mjs__["a" /* default */]();
 	}
 
+	/**
+	 * Creates a {@link Circle} and inserts it into the collision system
+	 * @param {Number} [x = 0] The starting X coordinate
+	 * @param {Number} [y = 0] The starting Y coordinate
+	 * @param {Number} [radius = 0] The radius
+	 * @param {Number} [scale = 1] The scale
+	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
+	 * @returns {Circle}
+	 */
+	createCircle(x = 0, y = 0, radius = 0, scale = 1, padding = 0) {
+		const body = new __WEBPACK_IMPORTED_MODULE_1__modules_Circle_mjs__["a" /* default */](x, y, radius, scale, padding);
+
+		this._bvh.insert(body);
+
+		return body;
+	}
+
+	/**
+	 * Creates a {@link Polygon} and inserts it into the collision system
+	 * @param {Number} [x = 0] The starting X coordinate
+	 * @param {Number} [y = 0] The starting Y coordinate
+	 * @param {Array<Number[]>} [points = []] An array of coordinate pairs making up the polygon - [[x1, y1], [x2, y2], ...]
+	 * @param {Number} [angle = 0] The starting rotation in radians
+	 * @param {Number} [scale_x = 1] The starting scale along the X axis
+	 * @param {Number} [scale_y = 1] The starting scale long the Y axis
+	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
+	 * @returns {Polygon}
+	 */
+	createPolygon(x = 0, y = 0, points = [[0, 0]], angle = 0, scale_x = 1, scale_y = 1, padding = 0) {
+		const body = new __WEBPACK_IMPORTED_MODULE_2__modules_Polygon_mjs__["a" /* default */](x, y, points, angle, scale_x, scale_y, padding);
+
+		this._bvh.insert(body);
+
+		return body;
+	}
+
+	/**
+	 * Creates a {@link Point} and inserts it into the collision system
+	 * @param {Number} [x = 0] The starting X coordinate
+	 * @param {Number} [y = 0] The starting Y coordinate
+	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
+	 * @returns {Point}
+	 */
+	createPoint(x = 0, y = 0, padding = 0) {
+		const body = new __WEBPACK_IMPORTED_MODULE_3__modules_Point_mjs__["a" /* default */](x, y, padding);
+
+		this._bvh.insert(body);
+
+		return body;
+	}
+
+	/**
+	 * Creates a {@link Result} used to collect the detailed results of a collision test
+	 */
+	createResult() {
+		return new __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__["a" /* default */]();
+	}
+
+	/**
+	 * Creates a Result used to collect the detailed results of a collision test
+	 */
+	static createResult() {
+		return new __WEBPACK_IMPORTED_MODULE_4__modules_Result_mjs__["a" /* default */]();
+	}
+
+	/**
+	 * Inserts bodies into the collision system
+	 * @param {...Circle|...Polygon|...Point} bodies
+	 */
+	insert(...bodies) {
+		for(const body of bodies) {
+			this._bvh.insert(body, false);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Removes bodies from the collision system
+	 * @param {...Circle|...Polygon|...Point} bodies
+	 */
+	remove(...bodies) {
+		for(const body of bodies) {
+			this._bvh.remove(body, false);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Updates the collision system. This should be called before any collisions are tested.
+	 */
 	update() {
-		this.handleInput();
-		this.processGameLogic();
-		this.handleCollisions();
-		this.render();
+		this._bvh.update();
+
+		return this;
 	}
 
-	handleInput() {
-		this.up    && (this.player.velocity += 0.1);
-		this.down  && (this.player.velocity -= 0.1);
-		this.left  && (this.player.angle -= 0.04);
-		this.right && (this.player.angle += 0.04);
+	/**
+	 * Draws the bodies within the system to a CanvasRenderingContext2D's current path
+	 * @param {CanvasRenderingContext2D} context The context to draw to
+	 */
+	draw(context) {
+		return this._bvh.draw(context);
 	}
 
-	processGameLogic() {
-		const x = Math.cos(this.player.angle);
-		const y = Math.sin(this.player.angle);
-
-		if(this.player.velocity > 0) {
-			this.player.velocity -= 0.05;
-
-			if(this.player.velocity > 3) {
-				this.player.velocity = 3;
-			}
-		}
-		else if(this.player.velocity < 0) {
-			this.player.velocity += 0.05;
-
-			if(this.player.velocity < -2) {
-				this.player.velocity = -2;
-			}
-		}
-
-		if(!Math.round(this.player.velocity * 100)) {
-			this.player.velocity = 0;
-		}
-
-		if(this.player.velocity) {
-			this.player.x += x * this.player.velocity;
-			this.player.y += y * this.player.velocity;
-		}
+	/**
+	 * Draws the system's BVH to a CanvasRenderingContext2D's current path. This is useful for testing out different padding values for bodies.
+	 * @param {CanvasRenderingContext2D} context The context to draw to
+	 */
+	drawBVH(context) {
+		return this._bvh.drawBVH(context);
 	}
 
-	handleCollisions() {
-		this.collisions.update();
-
-		const potentials = this.player.potentials();
-
-		// Negate any collisions
-		for(const body of potentials) {
-			if(this.player.collides(body, result)) {
-				this.player.x -= result.overlap * result.overlap_x;
-				this.player.y -= result.overlap * result.overlap_y;
-
-				this.player.velocity *= 0.9
-			}
-		}
+	/**
+	 * Returns a list of potential collisions for a body
+	 * @param {Circle|Polygon|Point} body The body to test for potential collisions against
+	 * @returns {Array<Body>}
+	 */
+	potentials(body) {
+		return this._bvh.potentials(body);
 	}
 
-	render() {
-		this.context.fillStyle = '#000000';
-		this.context.fillRect(0, 0, 800, 600);
-
-		this.context.strokeStyle = '#FFFFFF';
-		this.context.beginPath();
-		this.collisions.draw(this.context);
-		this.context.stroke();
-
-		if(this.bvh_checkbox.checked) {
-			this.context.strokeStyle = '#00FF00';
-			this.context.beginPath();
-			this.collisions.drawBVH(this.context);
-			this.context.stroke();
-		}
+	/**
+	 * Determines if two bodies are colliding
+	 * @param {Circle|Polygon|Point} target The target body to test against
+	 * @param {Result} [result = null] A Result object on which to store information about the collision
+	 * @param {Boolean} [aabb = true] Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
+	 * @returns {Boolean}
+	 */
+	collides(source, target, result = null, aabb = true) {
+		return Object(__WEBPACK_IMPORTED_MODULE_5__modules_SAT_mjs__["a" /* default */])(source, target, result, aabb);
 	}
-
-	createPlayer(x, y) {
-		const size = 15;
-
-		this.player = this.collisions.createPolygon(x, y, [
-			[-20, -10],
-			[20, -10],
-			[20, 10],
-			[-20, 10],
-		], 0.2);
-
-		this.player.velocity = 0;
-	}
-
-	createMap() {
-		// World bounds
-		this.collisions.createPolygon(0, 0, [[0, 0], [width, 0]]);
-		this.collisions.createPolygon(0, 0, [[width, 0], [width, height]]);
-		this.collisions.createPolygon(0, 0, [[width, height], [0, height]]);
-		this.collisions.createPolygon(0, 0, [[0, height], [0, 0]]);
-
-		// Factory
-		this.collisions.createPolygon(100, 100, [[-50, -50], [50, -50], [50, 50], [-50, 50],], 0.4);
-		this.collisions.createPolygon(190, 105, [[-20, -20], [20, -20], [20, 20], [-20, 20],], 0.4);
-		this.collisions.createCircle(170, 140, 8);
-		this.collisions.createCircle(185, 155, 8);
-		this.collisions.createCircle(165, 165, 8);
-		this.collisions.createCircle(145, 165, 8);
-
-		// Airstrip
-		this.collisions.createPolygon(230, 50, [[-150, -30], [150, -30], [150, 30], [-150, 30],], 0.4);
-
-		// HQ
-		this.collisions.createPolygon(100, 500, [[-40, -50], [40, -50], [50, 50], [-50, 50],], 0.2);
-		this.collisions.createCircle(180, 490, 20);
-		this.collisions.createCircle(175, 540, 20);
-
-		// Barracks
-		this.collisions.createPolygon(400, 500, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 1.7);
-		this.collisions.createPolygon(350, 494, [[-60, -20], [60, -20], [60, 20], [-60, 20]], 1.7);
-
-		// Mountains
-		this.collisions.createPolygon(750, 0, [[0, 0], [-20, 100]]);
-		this.collisions.createPolygon(750, 0, [[-20, 100], [30, 250]]);
-		this.collisions.createPolygon(750, 0, [[30, 250], [20, 300]]);
-		this.collisions.createPolygon(750, 0, [[20, 300], [-50, 320]]);
-		this.collisions.createPolygon(750, 0, [[-50, 320], [-90, 500]]);
-		this.collisions.createPolygon(750, 0, [[-90, 500], [-200, 600]]);
-
-		// Lake
-		this.collisions.createPolygon(550, 100, [
-			[-60, -20],
-			[-20, -40],
-			[30, -30],
-			[60, 20],
-			[40, 70],
-			[10, 100],
-			[-30, 110],
-			[-80, 90],
-			[-110, 50],
-			[-100, 20],
-		]);
-	}
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Tank;
+};
 
 
-function random(min, max) {
-	return Math.floor(Math.random() * max) + min;
-}
 
 
 /***/ }),
-/* 7 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BVHBranch_mjs__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__BVHBranch_mjs__ = __webpack_require__(6);
 
 
 /**
@@ -1768,7 +1532,7 @@ class BVH {
 
 
 /***/ }),
-/* 8 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1850,11 +1614,11 @@ class BVHBranch {
 
 
 /***/ }),
-/* 9 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body_mjs__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Body_mjs__ = __webpack_require__(0);
 
 
 /**
@@ -1904,11 +1668,11 @@ class Circle extends __WEBPACK_IMPORTED_MODULE_0__Body_mjs__["a" /* default */] 
 
 
 /***/ }),
-/* 10 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Polygon_mjs__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Polygon_mjs__ = __webpack_require__(3);
 
 
 /**
@@ -1933,173 +1697,6 @@ class Point extends __WEBPACK_IMPORTED_MODULE_0__Polygon_mjs__["a" /* default */
 ;
 
 Point.prototype.setPoints = undefined;
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_Collisions_mjs__ = __webpack_require__(0);
-
-
-const result = __WEBPACK_IMPORTED_MODULE_0__src_Collisions_mjs__["a" /* default */].createResult();
-const width  = 800;
-const height = 600;
-const count  = 500
-const speed  = 1;
-const size   = 5;
-
-let frame     = 0;
-let fps_total = 0;
-
-class Stress {
-	constructor() {
-		this.element    = document.createElement('div');
-		this.canvas     = document.createElement('canvas');
-		this.context    = this.canvas.getContext('2d');
-		this.collisions = new __WEBPACK_IMPORTED_MODULE_0__src_Collisions_mjs__["a" /* default */]();
-		this.bodies     = [];
-		this.polygons   = 0;
-		this.circles    = 0;
-
-		this.canvas.width  = width;
-		this.canvas.height = height;
-		this.context.font  = '24px Arial';
-
-		// World bounds
-		this.collisions.createPolygon(0, 0, [[0, 0], [width, 0]]);
-		this.collisions.createPolygon(0, 0, [[width, 0], [width, height]]);
-		this.collisions.createPolygon(0, 0, [[width, height], [0, height]]);
-		this.collisions.createPolygon(0, 0, [[0, height], [0, 0]]);
-
-		for(let i = 0; i < count; ++i) {
-			this.createShape(!random(0, 49));
-		}
-
-		this.element.innerHTML = `
-			<div><b>Total:</b> ${count}</div>
-			<div><b>Polygons:</b> ${this.polygons}</div>
-			<div><b>Circles:</b> ${this.circles}</div>
-			<div><label><input id="bvh" type="checkbox"> Show Bounding Volume Hierarchy</label></div>
-		`;
-
-		this.bvh_checkbox = this.element.querySelector('#bvh');
-		this.element.appendChild(this.canvas);
-
-		const self = this;
-
-		let time = performance.now();
-
-		this.frame = requestAnimationFrame(function frame() {
-			const current_time = performance.now();
-
-			self.update(1000 / (current_time - time));
-			self.frame = requestAnimationFrame(frame);
-
-			time = current_time;
-		});
-	}
-
-	update(fps) {
-		this.collisions.update();
-
-		++frame;
-		fps_total += fps;
-
-		const average_fps = Math.round(fps_total / frame);
-
-		if(frame > 100) {
-			frame     = 1;
-			fps_total = average_fps;
-		}
-
-		for(let i = 0; i < this.bodies.length; ++i) {
-			const body = this.bodies[i];
-
-			body.x += body.direction_x * speed;
-			body.y += body.direction_y * speed;
-
-			const potentials = body.potentials();
-
-			for(const body2 of potentials) {
-				if(body.collides(body2, result)) {
-					body.x -= result.overlap * result.overlap_x;
-					body.y -= result.overlap * result.overlap_y;
-
-					let dot = body.direction_x * result.overlap_y + body.direction_y * -result.overlap_x;
-
-					body.direction_x = 2 * dot * result.overlap_y - body.direction_x;
-					body.direction_y = 2 * dot * -result.overlap_x - body.direction_y;
-
-					dot = body2.direction_x * result.overlap_y + body2.direction_y * -result.overlap_x;
-
-					body2.direction_x = 2 * dot * result.overlap_y - body2.direction_x;
-					body2.direction_y = 2 * dot * -result.overlap_x - body2.direction_y;
-				}
-			}
-		}
-
-		// Clear the canvas
-		this.context.fillStyle = '#000000';
-		this.context.fillRect(0, 0, width, height);
-
-		// Render the bodies
-		this.context.strokeStyle = '#FFFFFF';
-		this.context.beginPath();
-		this.collisions.draw(this.context);
-		this.context.stroke();
-
-		// Render the BVH
-		if(this.bvh_checkbox.checked) {
-			this.context.strokeStyle = '#00FF00';
-			this.context.beginPath();
-			this.collisions.drawBVH(this.context);
-			this.context.stroke();
-		}
-
-		// Render the FPS
-		this.context.fillStyle = '#FFCC00';
-		this.context.fillText(average_fps, 10, 30);
-	}
-
-	createShape(large) {
-		const min_size  = size * 0.75 * (large ? 3 : 1);
-		const max_size  = size * 1.25 * (large ? 5 : 1);
-		const x         = random(0, width);
-		const y         = random(0, height);
-		const direction = random(0, 360) * Math.PI / 180;
-
-		let body;
-
-		if(random(0, 2)) {
-			body = this.collisions.createCircle(x, y, random(min_size, max_size));
-
-			++this.circles;
-		}
-		else {
-			body = this.collisions.createPolygon(x, y, [
-				[-random(min_size, max_size), -random(min_size, max_size)],
-				[random(min_size, max_size), -random(min_size, max_size)],
-				[random(min_size, max_size), random(min_size, max_size)],
-				[-random(min_size, max_size), random(3, size)],
-			], random(0, 360) * Math.PI / 180);
-
-			++this.polygons;
-		}
-
-		body.direction_x = Math.cos(direction);
-		body.direction_y = Math.sin(direction);
-
-		this.bodies.push(body);
-	}
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Stress;
-
-
-function random(min, max) {
-	return Math.floor(Math.random() * max) + min;
-}
 
 
 /***/ })
