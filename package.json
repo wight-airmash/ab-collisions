@@ -5,7 +5,7 @@
 	"main": "dist/collisions.js",
 	"types": "collisions.d.ts",
 	"scripts": {
-		"build": "webpack --entry ./src/Collisions.mjs --output-filename ./dist/collisions.js"
+		"build": "webpack --entry ./src/Collisions.mjs --output-filename ./dist/collisions.js --output-library-target commonjs2"
 	},
 	"repository": {
 		"type": "git",
