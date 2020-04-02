@@ -88,8 +88,8 @@ class Collisions {
 	 * @param {...Circle|...Polygon|...Point} bodies
 	 */
 	insert(...bodies) {
-		for(const body of bodies) {
-			this._bvh.insert(body, false);
+		for (let index = 0; index < bodies.length; index += 1) {
+			this._bvh.insert(bodies[index], false);
 		}
 
 		return this;
@@ -100,8 +100,8 @@ class Collisions {
 	 * @param {...Circle|...Polygon|...Point} bodies
 	 */
 	remove(...bodies) {
-		for(const body of bodies) {
-			this._bvh.remove(body, false);
+		for (let index = 0; index < bodies.length; index += 1) {
+			this._bvh.remove(bodies[index], false);
 		}
 
 		return this;

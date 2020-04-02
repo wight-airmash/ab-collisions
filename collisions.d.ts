@@ -25,6 +25,30 @@ export abstract class Body {
     potentials(): Body[];
 
     /**
+     * Returns a list of potential collisions for the viewport
+     * @returns {Body[]}
+     */
+    viewportPotentials(): Body[];
+
+    /**
+     * Returns a list of potential collisions for the repel
+     * @returns {Body[]}
+     */
+    repelPotentials(): Body[];
+
+    /**
+     * Returns a list of potential collisions for the player
+     * @returns {Body[]}
+     */
+    playerPotentials(): Body[];
+
+    /**
+     * Returns a list of potential collisions for the projectile
+     * @returns {Body[]}
+     */
+    projectilePotentials(): Body[];
+
+    /**
      * Removes the body from its current collision system
      */
     remove(): void;

@@ -7,112 +7,152 @@ import SAT    from './SAT.mjs';
  * @protected
  */
 export default class Body {
-	/**
-	 * @constructor
-	 * @param {Number} [x = 0] The starting X coordinate
-	 * @param {Number} [y = 0] The starting Y coordinate
-	 * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
-	 */
-	constructor(x = 0, y = 0, padding = 0) {
-		/**
-		 * @desc The X coordinate of the body
-		 * @type {Number}
-		 */
-		this.x = x;
+  /**
+   * @constructor
+   * @param {Number} [x = 0] The starting X coordinate
+   * @param {Number} [y = 0] The starting Y coordinate
+   * @param {Number} [padding = 0] The amount to pad the bounding volume when testing for potential collisions
+   */
+  constructor(x = 0, y = 0, padding = 0) {
+    /**
+     * @desc The X coordinate of the body
+     * @type {Number}
+     */
+    this.x = x;
 
-		/**
-		 * @desc The Y coordinate of the body
-		 * @type {Number}
-		 */
-		this.y = y;
+    /**
+     * @desc The Y coordinate of the body
+     * @type {Number}
+     */
+    this.y = y;
 
-		/**
-		 * @desc The amount to pad the bounding volume when testing for potential collisions
-		 * @type {Number}
-		 */
-		this.padding = padding;
+    /**
+     * @desc The amount to pad the bounding volume when testing for potential collisions
+     * @type {Number}
+     */
+    this.padding = padding;
 
-		/** @private */
-		this._circle = false;
+    /** @private */
+    this._circle = false;
 
-		/** @private */
-		this._polygon = false;
+    /** @private */
+    this._polygon = false;
 
-		/** @private */
-		this._point = false;
+    /** @private */
+    this._point = false;
 
-		/** @private */
-		this._bvh = null;
+    /** @private */
+    this._bvh = null;
 
-		/** @private */
-		this._bvh_parent = null;
+    /** @private */
+    this._bvh_parent = null;
 
-		/** @private */
-		this._bvh_branch = false;
+    /** @private */
+    this._bvh_branch = false;
 
-		/** @private */
-		this._bvh_padding = padding;
+    /** @private */
+    this._bvh_padding = padding;
 
-		/** @private */
-		this._bvh_min_x = 0;
+    /** @private */
+    this._bvh_min_x = 0;
 
-		/** @private */
-		this._bvh_min_y = 0;
+    /** @private */
+    this._bvh_min_y = 0;
 
-		/** @private */
-		this._bvh_max_x = 0;
+    /** @private */
+    this._bvh_max_x = 0;
 
-		/** @private */
-		this._bvh_max_y = 0;
-	}
+    /** @private */
+    this._bvh_max_y = 0;
+  }
 
-	/**
-	 * Determines if the body is colliding with another body
-	 * @param {Circle|Polygon|Point} target The target body to test against
-	 * @param {Result} [result = null] A Result object on which to store information about the collision
-	 * @param {Boolean} [aabb = true] Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
-	 * @returns {Boolean}
-	 */
-	collides(target, result = null, aabb = true) {
-		return SAT(this, target, result, aabb);
-	}
+  /**
+   * Determines if the body is colliding with another body
+   * @param {Circle|Polygon|Point} target The target body to test against
+   * @param {Result} [result = null] A Result object on which to store information about the collision
+   * @param {Boolean} [aabb = true] Set to false to skip the AABB test (useful if you use your own potential collision heuristic)
+   * @returns {Boolean}
+   */
+  collides(target, result = null, aabb = true) {
+    return SAT(this, target, result, aabb);
+  }
 
-	/**
-	 * Returns a list of potential collisions
-	 * @returns {Array<Body>}
-	 */
-	potentials() {
-		const bvh = this._bvh;
+  /**
+   * Returns a list of potential collisions
+   * @returns {Array<Body>}
+   */
+  potentials() {
+    const bvh = this._bvh;
 
-		if(bvh === null) {
-			throw new Error('Body does not belong to a collision system');
-		}
+    if(bvh === null) {
+      throw new Error('Body does not belong to a collision system');
+    }
 
-		return bvh.potentials(this);
-	}
+    return bvh.potentials(this);
+  }
 
-	/**
-	 * Removes the body from its current collision system
-	 */
-	remove() {
-		const bvh = this._bvh;
+  viewportPotentials() {
+    const bvh = this._bvh;
 
-		if(bvh) {
-			bvh.remove(this, false);
-		}
-	}
+    if(bvh === null) {
+      throw new Error('Body does not belong to a collision system');
+    }
 
-	/**
-	 * Creates a {@link Result} used to collect the detailed results of a collision test
-	 */
-	createResult() {
-		return new Result();
-	}
+    return bvh.viewportPotentials(this);
+  }
 
-	/**
-	 * Creates a Result used to collect the detailed results of a collision test
-	 */
-	static createResult() {
-		return new Result();
-	}
+  repelPotentials() {
+    const bvh = this._bvh;
+
+    if(bvh === null) {
+      throw new Error('Body does not belong to a collision system');
+    }
+
+    return bvh.repelPotentials(this);
+  }
+
+  playerPotentials() {
+    const bvh = this._bvh;
+
+    if(bvh === null) {
+      throw new Error('Body does not belong to a collision system');
+    }
+
+    return bvh.playerPotentials(this);
+  }
+
+  projectilePotentials() {
+    const bvh = this._bvh;
+
+    if(bvh === null) {
+      throw new Error('Body does not belong to a collision system');
+    }
+
+    return bvh.projectilePotentials(this);
+  }
+
+  /**
+   * Removes the body from its current collision system
+   */
+  remove() {
+    const bvh = this._bvh;
+
+    if(bvh) {
+      bvh.remove(this, false);
+    }
+  }
+
+  /**
+   * Creates a {@link Result} used to collect the detailed results of a collision test
+   */
+  createResult() {
+    return new Result();
+  }
+
+  /**
+   * Creates a Result used to collect the detailed results of a collision test
+   */
+  static createResult() {
+    return new Result();
+  }
 };
