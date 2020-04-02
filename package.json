@@ -1,40 +1,41 @@
 {
-	"name": "collisions",
-	"version": "2.0.14",
-	"description": "Collision detection for circles, polygons, and points",
-	"main": "dist/collisions.js",
-	"types": "collisions.d.ts",
-	"scripts": {
-		"build": "webpack --entry ./src/Collisions.mjs --output-filename ./dist/collisions.js --output-library-target commonjs2"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/Sinova/Collisions.git"
-	},
-	"keywords": [
-		"Collision",
-		"Separating Axis Theorem",
-		"Bounding Volume Hierarchy",
-		"SAT",
-		"BVH",
-		"Circle",
-		"Polygon",
-		"Line",
-		"Shape",
-		"Separating",
-		"Axis",
-		"Theorem",
-		"Bounding",
-		"Volume",
-		"Hierarchy"
-	],
-	"author": "Samuel Hodge",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/Sinova/Collisions/issues"
-	},
-	"homepage": "https://github.com/Sinova/Collisions#readme",
-	"devDependencies": {
-		"webpack": "^3.9.0"
-	}
+  "name": "collisions",
+  "version": "2.0.14",
+  "description": "Collision detection for circles, polygons, and points",
+  "main": "dist/collisions.js",
+  "types": "collisions.d.ts",
+  "scripts": {
+    "build": "webpack -c webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sinova/Collisions.git"
+  },
+  "keywords": [
+    "Collision",
+    "Separating Axis Theorem",
+    "Bounding Volume Hierarchy",
+    "SAT",
+    "BVH",
+    "Circle",
+    "Polygon",
+    "Line",
+    "Shape",
+    "Separating",
+    "Axis",
+    "Theorem",
+    "Bounding",
+    "Volume",
+    "Hierarchy"
+  ],
+  "author": "Samuel Hodge",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Sinova/Collisions/issues"
+  },
+  "homepage": "https://github.com/Sinova/Collisions#readme",
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
 }
