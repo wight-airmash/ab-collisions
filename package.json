@@ -1,6 +1,6 @@
 {
   "name": "collisions",
-  "version": "2.0.14-ab.6",
+  "version": "2.0.14-ab.6.1",
   "description": "Collision detection for circles, polygons, and points",
   "main": "dist/collisions.js",
   "types": "collisions.d.ts",

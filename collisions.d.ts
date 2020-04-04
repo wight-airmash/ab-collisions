@@ -9,6 +9,16 @@ export abstract class Body {
     y: number;
     padding: number;
 
+    id: number;
+    team: number;
+    type: number;
+
+    isCollideWithViewport: boolean;
+    isCollideWithPlayer: boolean;
+    isCollideWithProjectile: boolean;
+    isCollideWithRepel: boolean;
+    isBox: boolean;
+
     /**
      * Determines if the body is colliding with another body
      * @param {Circle|Polygon|Point} target The target body to test against
@@ -101,6 +111,8 @@ export class Polygon extends Body {
     angle: number;
     scale_x: number;
     scale_y: number;
+
+    setPoints(points: number[][]): void;
 }
 
 /**

@@ -64,6 +64,39 @@ export default class Body {
 
     /** @private */
     this._bvh_max_y = 0;
+
+    this.id = null;
+    this.type = null;
+
+    /**
+     * Team ID if required.
+     */
+    this.team = null;
+
+    /**
+     * Should be included in the viewport potential collisions list.
+     */
+    this.isCollideWithViewport = false;
+
+    /**
+     * Should be included in the player potential collisions list.
+     */
+    this.isCollideWithPlayer = false;
+
+    /**
+     * Should be included in the projectile potential collisions list.
+     */
+    this.isCollideWithProjectile = false;
+
+     /**
+     * Should be included in the repel potential collisions list.
+     */
+    this.isCollideWithRepel = false;
+
+     /**
+     * Is a box (shield, inferno or upgrade).
+     */
+    this.isBox = false;
   }
 
   /**

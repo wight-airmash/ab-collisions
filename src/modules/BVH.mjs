@@ -412,7 +412,7 @@ export default class BVH {
       else {
         if (
           !branch &&
-          current.vp &&
+          current.isCollideWithViewport &&
           current !== body &&
           current.id !== body.id
         ) {
@@ -491,7 +491,7 @@ export default class BVH {
       else {
         if (
           !branch &&
-          current.rp &&
+          current.isCollideWithRepel &&
           current !== body &&
           current.id !== body.id &&
           current.team !== body.team
@@ -571,7 +571,7 @@ export default class BVH {
       else {
         if (
           !branch &&
-          current.plp &&
+          current.isCollideWithPlayer &&
           current !== body &&
           current.id !== body.id &&
           current.team !== body.team
@@ -651,7 +651,7 @@ export default class BVH {
       else {
         if (
           !branch &&
-          current.prp &&
+          current.isCollideWithProjectile &&
           current !== body &&
           current.id !== body.id
         ) {
