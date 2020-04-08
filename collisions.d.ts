@@ -18,6 +18,7 @@ export abstract class Body {
     isCollideWithProjectile: boolean;
     isCollideWithRepel: boolean;
     isBox: boolean;
+    isProjectile: boolean;
 
     /**
      * Determines if the body is colliding with another body

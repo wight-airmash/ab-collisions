@@ -514,6 +514,11 @@ class Body {
      * Is a box (shield, inferno or upgrade).
      */
     this.isBox = false;
+
+    /**
+     * Is a projectile.
+     */
+    this.isProjectile = false;
   }
 
   /**
